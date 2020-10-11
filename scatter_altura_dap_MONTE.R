@@ -125,5 +125,11 @@ server <- function(input, outpup){
       
   }
     
+  
+
+# agregar a shinyapps.io --------------------------------------------------
+# 
+# library(rsconnect)
+# rsconnect::deployApp('path/to/your/app')  
   )
 }
