@@ -2,8 +2,8 @@ library(shiny)
 library(shinythemes)
 library(dplyr)
 library(ggplot2)
-df <- read.table("C:\\Users\\jimena\\Dropbox\\Datos 2INBN (1)\\Tablas y Scripts 2INBN\\Tablas actualizadas\\MONTE\\MON_Individuos_SEPTIEMBRE_2020.csv",sep = ",", header = T)
-df2 <- read.table("C:/Users/jimena/Dropbox/Datos 2INBN (1)/Tablas y Scripts 2INBN/Tablas actualizadas/MONTE/ESTADISTICAS/AREA BASAL/tabla_AB_MON.csv", sep =",", header = T)
+df <- read.table("C:\\Users\\usuario\\Dropbox\\Datos 2INBN (1)\\Tablas y Scripts 2INBN\\Tablas actualizadas\\MONTE\\MON_Individuos_SEPTIEMBRE_2020.csv",sep = ",", header = T)
+df2 <- read.table("C:/Users/usuario/Dropbox/Datos 2INBN (1)/Tablas y Scripts 2INBN/Tablas actualizadas/MONTE/ESTADISTICAS/AREA BASAL/tabla_AB_MON.csv", sep =",", header = T)
 sp <- df2 %>% distinct(especie_corregida) %>% 
   arrange(especie_corregida) %>% 
   mutate(especie_corregida = as.character(especie_corregida))
@@ -99,7 +99,8 @@ server <- function(input, output) {
 shinyApp(ui, server)
 
 
-# Gráfico barras volumen por clase diamétrica por especie -----------------
+# Gráfico barras volumen por clase diamétrica por especie y plotly-----------------
+library(plotly)
 
 ui <- fluidPage(
   title = 'Volumen x clase diamétrica x especie',
@@ -107,10 +108,10 @@ ui <- fluidPage(
   hr(),
   sidebarLayout(
     sidebarPanel(
-      selectInput(inputId = 'xxxxxx',
+      selectInput(inputId = 'especie_corregida',
                   label = 'Seleccione la especie',
-                  choices = xxx,
-                  selected = ''),
+                  choices = sp,
+                  selected = 'Bulnesia retama'),
     ),
     mainPanel(
       plotOutput(outputId = 'gráfico_barras')
@@ -122,10 +123,13 @@ server <- function(input, outpup){
     df %>% 
       filter(especie_corregida==input$especie_corregida) %>%
       filter(DAP_final_m!= 0) %>% 
-      
+      ggplot(aes(especie_corregida))+
+               geom_bar()+
+      theme_classic()
   }
+  )}
     
-  
+shinyApp(ui, server)
 
 # agregar a shinyapps.io --------------------------------------------------
 # 
